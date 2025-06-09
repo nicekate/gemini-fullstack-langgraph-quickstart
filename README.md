@@ -1,5 +1,26 @@
 # Gemini Fullstack LangGraph Quickstart
 
+## 🎨 新增功能：主题切换系统
+
+本项目现已支持完整的浅色/深色主题切换功能，为用户提供更好的视觉体验：
+
+### ✨ 主题功能特性
+- **🌞 浅色主题**: 干净明亮的界面，适合白天使用
+- **🌙 深色主题**: 护眼的深色界面，适合夜间使用
+- **🔄 一键切换**: 点击右上角的太阳/月亮图标即可切换主题
+- **💾 记忆功能**: 自动保存用户的主题偏好设置
+- **🎯 智能检测**: 首次访问时自动检测系统主题偏好
+- **⚡ 实时切换**: 无需刷新页面，所有组件实时响应主题变化
+
+### 🛠️ 技术实现
+- **React Context**: 使用Context API管理全局主题状态
+- **TypeScript**: 完整的类型安全支持
+- **Tailwind CSS**: 基于CSS变量的主题系统
+- **本地存储**: 主题设置持久化保存
+- **无障碍支持**: 符合可访问性标准的主题切换按钮
+
+---
+
 This project demonstrates a fullstack application using a React frontend and a LangGraph-powered backend agent. The agent is designed to perform comprehensive research on a user's query by dynamically generating search terms, querying the web using Google Search, reflecting on the results to identify knowledge gaps, and iteratively refining its search until it can provide a well-supported answer with citations. This application serves as an example of building research-augmented conversational AI using LangGraph and Google's Gemini models.
 
 ![Gemini Fullstack LangGraph](./app.png)
@@ -12,6 +33,7 @@ This project demonstrates a fullstack application using a React frontend and a L
 - 🌐 Integrated web research via Google Search API.
 - 🤔 Reflective reasoning to identify knowledge gaps and refine searches.
 - 📄 Generates answers with citations from gathered sources.
+- 🎨 **浅色/深色主题切换** - 支持一键切换主题，自动保存用户偏好
 - 🔄 Hot-reloading for both frontend and backend development during development.
 
 ## Project Structure
