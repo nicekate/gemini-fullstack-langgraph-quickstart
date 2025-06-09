@@ -4,8 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { ProcessedEvent } from "@/components/ActivityTimeline";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { ChatMessagesView } from "@/components/ChatMessagesView";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
-export default function App() {
+function AppContent() {
   const [processedEventsTimeline, setProcessedEventsTimeline] = useState<
     ProcessedEvent[]
   >([]);
@@ -34,7 +36,7 @@ export default function App() {
       if (event.generate_query) {
         processedEvent = {
           title: "Generating Search Queries",
-          data: event.generate_query.query_list.join(", "),
+          data: (event.generate_query.query_list || []).join(", "),
         };
       } else if (event.web_research) {
         const sources = event.web_research.sources_gathered || [];
@@ -54,7 +56,7 @@ export default function App() {
           title: "Reflection",
           data: event.reflection.is_sufficient
             ? "Search successful, generating final answer."
-            : `Need more information, searching for ${event.reflection.follow_up_queries.join(
+            : `Need more information, searching for ${(event.reflection.follow_up_queries || []).join(
                 ", "
               )}`,
         };
@@ -153,13 +155,14 @@ export default function App() {
   }, [thread]);
 
   return (
-    <div className="flex h-screen bg-neutral-800 text-neutral-100 font-sans antialiased">
-      <main className="flex-1 flex flex-col overflow-hidden max-w-4xl mx-auto w-full">
-        <div
-          className={`flex-1 overflow-y-auto ${
-            thread.messages.length === 0 ? "flex" : ""
-          }`}
-        >
+    <div className="flex h-screen bg-background text-foreground font-sans antialiased">
+      {/* Theme toggle button - positioned absolutely in top right */}
+      <div className="absolute top-4 right-4 z-50">
+        <ThemeToggle className="bg-card hover:bg-accent border border-border" />
+      </div>
+
+      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full min-h-0">
+        <div className="flex-1 flex flex-col min-h-0">
           {thread.messages.length === 0 ? (
             <WelcomeScreen
               handleSubmit={handleSubmit}
@@ -180,5 +183,13 @@ export default function App() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <AppContent />
+    </ThemeProvider>
   );
 }

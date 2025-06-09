@@ -36,20 +36,20 @@ export function ActivityTimeline({
     useState<boolean>(false);
   const getEventIcon = (title: string, index: number) => {
     if (index === 0 && isLoading && processedEvents.length === 0) {
-      return <Loader2 className="h-4 w-4 text-neutral-400 animate-spin" />;
+      return <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />;
     }
     if (title.toLowerCase().includes("generating")) {
-      return <TextSearch className="h-4 w-4 text-neutral-400" />;
+      return <TextSearch className="h-4 w-4 text-muted-foreground" />;
     } else if (title.toLowerCase().includes("thinking")) {
-      return <Loader2 className="h-4 w-4 text-neutral-400 animate-spin" />;
+      return <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />;
     } else if (title.toLowerCase().includes("reflection")) {
-      return <Brain className="h-4 w-4 text-neutral-400" />;
+      return <Brain className="h-4 w-4 text-muted-foreground" />;
     } else if (title.toLowerCase().includes("research")) {
-      return <Search className="h-4 w-4 text-neutral-400" />;
+      return <Search className="h-4 w-4 text-muted-foreground" />;
     } else if (title.toLowerCase().includes("finalizing")) {
-      return <Pen className="h-4 w-4 text-neutral-400" />;
+      return <Pen className="h-4 w-4 text-muted-foreground" />;
     }
-    return <Activity className="h-4 w-4 text-neutral-400" />;
+    return <Activity className="h-4 w-4 text-muted-foreground" />;
   };
 
   useEffect(() => {
@@ -59,11 +59,11 @@ export function ActivityTimeline({
   }, [isLoading, processedEvents]);
 
   return (
-    <Card className="border-none rounded-lg bg-neutral-700 max-h-96">
+    <Card className="border-none rounded-lg bg-secondary max-h-96">
       <CardHeader>
         <CardDescription className="flex items-center justify-between">
           <div
-            className="flex items-center justify-start text-sm w-full cursor-pointer gap-2 text-neutral-100"
+            className="flex items-center justify-start text-sm w-full cursor-pointer gap-2 text-secondary-foreground"
             onClick={() => setIsTimelineCollapsed(!isTimelineCollapsed)}
           >
             Research
@@ -80,12 +80,12 @@ export function ActivityTimeline({
           <CardContent>
             {isLoading && processedEvents.length === 0 && (
               <div className="relative pl-8 pb-4">
-                <div className="absolute left-3 top-3.5 h-full w-0.5 bg-neutral-800" />
-                <div className="absolute left-0.5 top-2 h-5 w-5 rounded-full bg-neutral-800 flex items-center justify-center ring-4 ring-neutral-900">
-                  <Loader2 className="h-3 w-3 text-neutral-400 animate-spin" />
+                <div className="absolute left-3 top-3.5 h-full w-0.5 bg-border" />
+                <div className="absolute left-0.5 top-2 h-5 w-5 rounded-full bg-muted flex items-center justify-center ring-4 ring-secondary">
+                  <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
                 </div>
                 <div>
-                  <p className="text-sm text-neutral-300 font-medium">
+                  <p className="text-sm text-secondary-foreground font-medium">
                     Searching...
                   </p>
                 </div>
@@ -97,16 +97,16 @@ export function ActivityTimeline({
                   <div key={index} className="relative pl-8 pb-4">
                     {index < processedEvents.length - 1 ||
                     (isLoading && index === processedEvents.length - 1) ? (
-                      <div className="absolute left-3 top-3.5 h-full w-0.5 bg-neutral-600" />
+                      <div className="absolute left-3 top-3.5 h-full w-0.5 bg-border" />
                     ) : null}
-                    <div className="absolute left-0.5 top-2 h-6 w-6 rounded-full bg-neutral-600 flex items-center justify-center ring-4 ring-neutral-700">
+                    <div className="absolute left-0.5 top-2 h-6 w-6 rounded-full bg-muted flex items-center justify-center ring-4 ring-secondary">
                       {getEventIcon(eventItem.title, index)}
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-200 font-medium mb-0.5">
+                      <p className="text-sm text-secondary-foreground font-medium mb-0.5">
                         {eventItem.title}
                       </p>
-                      <p className="text-xs text-neutral-300 leading-relaxed">
+                      <p className="text-xs text-muted-foreground leading-relaxed">
                         {typeof eventItem.data === "string"
                           ? eventItem.data
                           : Array.isArray(eventItem.data)
@@ -118,11 +118,11 @@ export function ActivityTimeline({
                 ))}
                 {isLoading && processedEvents.length > 0 && (
                   <div className="relative pl-8 pb-4">
-                    <div className="absolute left-0.5 top-2 h-5 w-5 rounded-full bg-neutral-600 flex items-center justify-center ring-4 ring-neutral-700">
-                      <Loader2 className="h-3 w-3 text-neutral-400 animate-spin" />
+                    <div className="absolute left-0.5 top-2 h-5 w-5 rounded-full bg-muted flex items-center justify-center ring-4 ring-secondary">
+                      <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-300 font-medium">
+                      <p className="text-sm text-secondary-foreground font-medium">
                         Searching...
                       </p>
                     </div>
@@ -130,10 +130,10 @@ export function ActivityTimeline({
                 )}
               </div>
             ) : !isLoading ? ( // Only show "No activity" if not loading and no events
-              <div className="flex flex-col items-center justify-center h-full text-neutral-500 pt-10">
+              <div className="flex flex-col items-center justify-center h-full text-muted-foreground pt-10">
                 <Info className="h-6 w-6 mb-3" />
                 <p className="text-sm">No activity to display.</p>
-                <p className="text-xs text-neutral-600 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Timeline will update during processing.
                 </p>
               </div>

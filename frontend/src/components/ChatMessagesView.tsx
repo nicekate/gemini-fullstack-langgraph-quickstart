@@ -147,7 +147,7 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
 }) => {
   return (
     <div
-      className={`text-white rounded-3xl break-words min-h-7 bg-neutral-700 max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg`}
+      className="text-primary-foreground rounded-3xl break-words min-h-7 bg-primary max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg"
     >
       <ReactMarkdown components={mdComponents}>
         {typeof message.content === "string"
@@ -187,9 +187,9 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
 
   return (
-    <div className={`relative break-words flex flex-col`}>
+    <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-card text-card-foreground rounded-bl-none w-full border border-border">
       {activityForThisBubble && activityForThisBubble.length > 0 && (
-        <div className="mb-3 border-b border-neutral-700 pb-3 text-xs">
+        <div className="mb-3 border-b border-border pb-3 text-xs">
           <ActivityTimeline
             processedEvents={activityForThisBubble}
             isLoading={isLiveActivityForThisBubble}
@@ -201,21 +201,24 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           ? message.content
           : JSON.stringify(message.content)}
       </ReactMarkdown>
-      <Button
-        variant="default"
-        className="cursor-pointer bg-neutral-700 border-neutral-600 text-neutral-300 self-end"
-        onClick={() =>
-          handleCopy(
-            typeof message.content === "string"
-              ? message.content
-              : JSON.stringify(message.content),
-            message.id!
-          )
-        }
-      >
-        {copiedMessageId === message.id ? "Copied" : "Copy"}
-        {copiedMessageId === message.id ? <CopyCheck /> : <Copy />}
-      </Button>
+      <div className="flex justify-end mt-2">
+        <Button
+          variant="secondary"
+          size="sm"
+          className="cursor-pointer flex items-center gap-1 px-3 py-1 text-xs"
+          onClick={() =>
+            handleCopy(
+              typeof message.content === "string"
+                ? message.content
+                : JSON.stringify(message.content),
+              message.id!
+            )
+          }
+        >
+          {copiedMessageId === message.id ? "Copied" : "Copy"}
+          {copiedMessageId === message.id ? <CopyCheck className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+        </Button>
+      </div>
     </div>
   );
 };
@@ -252,9 +255,9 @@ export function ChatMessagesView({
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <ScrollArea className="flex-grow" ref={scrollAreaRef}>
-        <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16">
+    <div className="flex flex-col h-full min-h-0">
+      <ScrollArea className="flex-1 min-h-0" ref={scrollAreaRef}>
+        <div className="p-4 md:p-6 space-y-4 max-w-4xl mx-auto">
           {messages.map((message, index) => {
             const isLast = index === messages.length - 1;
             return (
@@ -291,7 +294,7 @@ export function ChatMessagesView({
               <div className="flex items-start gap-3 mt-3">
                 {" "}
                 {/* AI message row structure */}
-                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-neutral-800 text-neutral-100 rounded-bl-none w-full min-h-[56px]">
+                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-card text-card-foreground rounded-bl-none w-full min-h-[56px] border border-border">
                   {liveActivityEvents.length > 0 ? (
                     <div className="text-xs">
                       <ActivityTimeline
@@ -301,21 +304,25 @@ export function ChatMessagesView({
                     </div>
                   ) : (
                     <div className="flex items-center justify-start h-full">
-                      <Loader2 className="h-5 w-5 animate-spin text-neutral-400 mr-2" />
+                      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground mr-2" />
                       <span>Processing...</span>
                     </div>
                   )}
                 </div>
               </div>
             )}
+          {/* Add some bottom padding to ensure content is not cut off */}
+          <div className="h-4"></div>
         </div>
       </ScrollArea>
-      <InputForm
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        onCancel={onCancel}
-        hasHistory={messages.length > 0}
-      />
+      <div className="flex-shrink-0 border-t border-border">
+        <InputForm
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          onCancel={onCancel}
+          hasHistory={messages.length > 0}
+        />
+      </div>
     </div>
   );
 }
